@@ -1,1 +1,16 @@
+--Badamjav
 
+INSERT INTO Room
+VALUES( 'R0001', '1f.001', 240, 'Lecture Room');
+
+INSERT INTO Room
+VALUES( 'R0002', '2f.011', 40, 'Seminar Room');
+
+INSERT INTO Room
+VALUES( 'R0003', '4f.031', 150, 'Lecture Room');
+
+INSERT INTO Room
+VALUES( 'R0004', '0f.010', 550, 'Venue');
+
+INSERT INTO Room
+VALUES( 'R0005', '3f.021', 240, 'Lecture Room');
