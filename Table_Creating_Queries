@@ -1,0 +1,49 @@
+--Badamjav --
+--Creating Room Table. --
+
+CREATE TABLE Room(
+    Room_ID Varchar(4) NOT NULL,
+    Room_Number Varchar(6) NOT NULL UNIQUE,
+    Capacity INT NOT NULL,
+    Room_Type Char(25) NOT NULL,
+    CONSTRAINT PK_Room PRIMARY KEY (Room_ID)
+);
+
+-- Creating Lecture_Equipment Table--
+CREATE TABLE Lecture_Equipment(
+    Equipment_ID VARCHAR(5) NOT NULL,
+    Lecture_ID Varchar(5) NOT NULL,
+    CONSTRAINT FK_LectureID FOREIGN KEY (Lecture_ID)
+    REFERENCES Lecture(Lecture_ID),
+    
+    CONSTRAINT FK_EquipmentID FOREIGN KEY (Equipment_ID)
+    REFERENCES Requirement_equipment(Equipment_ID)
+);
+
+--Creating Lecture Table. --
+
+CREATE TABLE Lecture(
+    Lecture_ID VARCHAR(5) NOT NULL,
+    Speaker_ID VARCHAR(5),
+    Start_date  DATE NOT NULL,
+    Room_ID VARCHAR(4),
+    Topic CHAR(50) NOT NULL,
+    Description_L CHAR(150) NOT NULL,
+    Lecture_attendance INT NOT NULL,
+    Staff_ID INT,
+    stud_ID INT,
+    
+    CONSTRAINT PK_Lecture PRIMARY KEY (Lecture_ID),
+    
+    CONSTRAINT FK_SpeakerID FOREIGN KEY (Speaker_ID)
+    REFERENCES Speaker(Speaker_ID),
+    
+    CONSTRAINT FK_RoomID FOREIGN KEY (Room_ID)
+    REFERENCES Room(Room_ID),
+    
+    CONSTRAINT FK_StaffID FOREIGN KEY (Staff_ID)
+    REFERENCES Staff(Staff_ID),
+    
+    CONSTRAINT FK_StudentID FOREIGN KEY (stud_ID)
+    REFERENCES Student(stud_ID)
+);
