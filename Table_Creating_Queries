@@ -8,20 +8,83 @@ CREATE TABLE Room(
     Room_Type Char(25) NOT NULL,
     CONSTRAINT PK_Room PRIMARY KEY (Room_ID)
 );
-
--- Creating Lecture_Equipment Table--
-CREATE TABLE Lecture_Equipment(
-    Equipment_ID VARCHAR(5) NOT NULL,
-    Lecture_ID Varchar(5) NOT NULL,
-    CONSTRAINT FK_LectureID FOREIGN KEY (Lecture_ID)
-    REFERENCES Lecture(Lecture_ID),
-    
-    CONSTRAINT FK_EquipmentID FOREIGN KEY (Equipment_ID)
-    REFERENCES Requirement_equipment(Equipment_ID)
+-----------------------------------------------------------------------
+CREATE TABLE Required_equipment(
+    Equipment_ID VARCHAR(5) PRIMARY KEY NOT NULL,
+    Equipment_Description CHAR(250) NOT NULL
 );
-
---Creating Lecture Table. --
-
+-----------------------------------------------------------------------
+CREATE TABLE staff(
+    Staff_ID INT PRIMARY KEY,
+    Staff_Name CHAR(25) NOT NULL,
+    Contact_Number INT NOT NULL
+);
+-----------------------------------------------------------------------
+CREATE TABLE organisation(
+    Org_ID VARCHAR(6) NOT NULL,
+    Org_Name CHAR(50) NOT NULL,
+    Org_description CHAR(250) NOT NULL,
+    Phone_number INT NOT NULL,
+    Staff_ID INT,
+    CONSTRAINT pk_org PRIMARY KEY (Org_ID),
+    CONSTRAINT fk_staff_Id FOREIGN KEY (Staff_ID)
+    REFERENCES Staff(Staff_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE student(
+    Stud_ID INT NOT NULL,
+    First_Name CHAR(50) NOT NULL,
+    Second_Name CHAR(50) NOT NULL,
+    Phone_Number INT NOT NULL,
+    CONSTRAINT pk_stud PRIMARY KEY (Stud_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE Speaker(
+    Speaker_Id VARCHAR(5) NOT NULL,
+    Speaker_Fname CHAR(50) NOT NULL,
+    Speaker_Lname CHAR(50) NOT NULL,
+    Speaker_Number INT NOT NULL,
+    Org_ID VARCHAR(7),
+    CONSTRAINT fk_orga FOREIGN KEY (Org_ID)
+    REFERENCES Organisation(Org_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE placement(
+    Plac_ID VARCHAR(5) NOT NULL,
+    Plac_description CHAR(250) NOT NULL,
+    Org_ID VARCHAR(7),
+    Start_date DATE NOT NULL,
+    End_date DATE NOT NULL,
+    stud_ID INT,
+    CONSTRAINT fk_org FOREIGN KEY (Org_ID)
+    REFERENCES Organisation(Org_ID),
+    CONSTRAINT fk_stud FOREIGN KEY(stud_ID)
+    REFERENCES Student(stud_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE L_project(
+    Project_ID VARCHAR(7) NOT NULL,
+    Project_Name CHAR(50) NOT NULL,
+    Start_Date DATE NOT NULL,
+    End_Date DATE NOT NULL,
+    Status CHAR(10) NOT NULL,
+    Org_ID VARCHAR(7),
+    CONSTRAINT fk_org_Pro FOREIGN KEY (Org_ID)
+    REFERENCES Organisation(Org_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE Contact_History(
+    ContactHistory_ID VARCHAR(5) NOT NULL,
+    Org_ID VARCHAR(7),
+    Contact_Date DATE NOT NULL,
+    Comments CHAR(250) NOT NULL,
+    Staff_ID INT,
+    
+    CONSTRAINT pk_cHIstory PRIMARY KEY (ContactHistory_ID),
+    CONSTRAINT fk_Org_cont FOREIGN KEY (Org_ID) REFERENCES Organisation(org_Id),
+    CONSTRAINT fk_staff_cont FOREIGN KEY (Staff_ID) REFERENCES Staff(Staff_Id)
+);
+-----------------------------------------------------------------------
 CREATE TABLE Lecture(
     Lecture_ID VARCHAR(5) NOT NULL,
     Speaker_ID VARCHAR(5),
@@ -35,15 +98,32 @@ CREATE TABLE Lecture(
     
     CONSTRAINT PK_Lecture PRIMARY KEY (Lecture_ID),
     
-    CONSTRAINT FK_SpeakerID FOREIGN KEY (Speaker_ID)
-    REFERENCES Speaker(Speaker_ID),
+    CONSTRAINT FK_SpeakerID FOREIGN KEY (Speaker_ID) REFERENCES Speaker(Speaker_ID),
     
-    CONSTRAINT FK_RoomID FOREIGN KEY (Room_ID)
-    REFERENCES Room(Room_ID),
+    CONSTRAINT FK_RoomID FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID),
     
-    CONSTRAINT FK_StaffID FOREIGN KEY (Staff_ID)
-    REFERENCES Staff(Staff_ID),
+    CONSTRAINT FK_StaffID FOREIGN KEY (Staff_ID) REFERENCES Staff(Staff_ID),
     
-    CONSTRAINT FK_StudentID FOREIGN KEY (stud_ID)
-    REFERENCES Student(stud_ID)
+    CONSTRAINT FK_StudentID FOREIGN KEY (stud_ID) REFERENCES Student(stud_ID)
 );
+-----------------------------------------------------------------------
+CREATE TABLE Lecture_Equipment(
+    Equipment_ID VARCHAR(5) NOT NULL,
+    Lecture_ID Varchar(5) NOT NULL,
+    CONSTRAINT FK_LectureID FOREIGN KEY (Lecture_ID)
+    REFERENCES Lecture(Lecture_ID),
+    
+    CONSTRAINT FK_EquipmentID FOREIGN KEY (Equipment_ID)
+    REFERENCES Requirement_equipment(Equipment_ID)
+);
+-----------------------------------------------------------------------
+CREATE TABLE feedback(
+    Feedback_ID VARCHAR(6) NOT NULL,
+    stud_ID INT,
+    Mark INT NOT NULL,
+    Lecture_ID VARCHAR(5),
+    CONSTRAINT pk_feedback PRIMARY KEY (Feedback_ID),
+    CONSTRAINT fk_studid4fback FOREIGN KEY (stud_ID) REFERENCES Student(stud_ID),
+    CONSTRAINT fk_lecture FOREIGN KEY (lecture_ID) REFERENCES Lecture(lecture_ID)    
+);
+
