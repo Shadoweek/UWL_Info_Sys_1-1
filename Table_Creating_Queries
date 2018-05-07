@@ -45,6 +45,7 @@ CREATE TABLE Speaker(
     Speaker_Lname CHAR(50) NOT NULL,
     Speaker_Number INT NOT NULL,
     Org_ID VARCHAR(7),
+    CONSTRAINT pk_speaker PRIMARY KEY (Speaker_ID),
     CONSTRAINT fk_orga FOREIGN KEY (Org_ID)
     REFERENCES Organisation(Org_ID)
 );
